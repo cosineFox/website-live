@@ -1,4 +1,3 @@
-# Workflow file: .github/workflows/deploy.yml
 name: Deploy to Neocities
 
 on:
@@ -19,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '20'
 
       # Step 3: Install Neocities package
       - name: Install Neocities module
@@ -33,15 +32,41 @@ jobs:
         run: |
           node -e "
           const Neocities = require('neocities');
-          const api = new Neocities(process.env.NEOCITIES_USERNAME, process.env.NEOCITIES_PASSWORD);
+          const fs = require('fs');
+          const path = require('path');
 
-          // Test user/pass connection
-          api.info((resp) => {
-              if (resp.result !== 'success') {
-                  console.error('Auth Error:', resp.message);
-                  process.exit(1);
+          const username = process.env.NEOCITIES_USERNAME;
+          const password = process.env.NEOCITIES_PASSWORD;
+
+          const api = new Neocities(username, password);
+
+          // Collect all files in the repo
+          function getFiles(dir, fileList = []) {
+              const files = fs.readdirSync(dir);
+              files.forEach((file) => {
+                  const filePath = path.join(dir, file);
+                  const stat = fs.statSync(filePath);
+                  if (stat.isDirectory()) {
+                      getFiles(filePath, fileList);
+                  } else {
+                      fileList.push({
+                          name: path.relative('.', filePath).replace(/\\/g, '/'),
+                          path: filePath,
+                      });
+                  }
+              });
+              return fileList;
+          }
+
+          const filesToUpload = getFiles('.');
+
+          // Upload files to Neocities
+          api.upload(filesToUpload, (resp) => {
+              if (resp.result === 'success') {
+                  console.log('Files successfully uploaded to Neocities.');
               } else {
-                  console.log('Connected to Neocities successfully.');
+                  console.error('Error uploading files:', resp.message);
+                  process.exit(1);
               }
           });
           "
