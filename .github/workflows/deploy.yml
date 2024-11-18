@@ -39,7 +39,7 @@ jobs:
             fi
           done
 
-      # Step 4: Upload new and updated files to Neocities
+      # Step 4: Upload new and updated files to Neocities (filtered for allowed file types)
       - name: Upload files to Neocities
         env:
           NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
@@ -49,3 +49,4 @@ jobs:
             echo "Uploading or updating $file to Neocities"
             curl -F "file=@$file" "https://neocities.org/api/upload" -H "Authorization: Bearer $NEOCITIES_API_KEY"
           done
+
