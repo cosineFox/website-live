@@ -1,61 +1,24 @@
-name: Sync Neocities with GitHub Repo
+- name: Upload files to Neocities
+  env:
+    NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+  run: |
+    # Define paths and file types to exclude
+    exclude_paths="./.github/* ./README.md"
+    
+    # Upload only allowed file types, excluding unwanted paths
+    for file in $(find . -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.gif' \)); do
+      # Skip excluded paths
+      skip=false
+      for exclude in $exclude_paths; do
+        if [[ "$file" == $exclude ]]; then
+          skip=true
+          break
+        fi
+      done
 
-on:
-  push:
-    branches:
-      - main  # Adjust this to your desired branch
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      # Step 1: Checkout the code from GitHub
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Step 2: Fetch existing files from Neocities
-      - name: Fetch files from Neocities
-        id: neocities_list
-        env:
-          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
-        run: |
-          curl -s "https://neocities.org/api/list" -H "Authorization: Bearer $NEOCITIES_API_KEY" > neocities_list.json
-
-      # Step 3: Delete files from Neocities that are no longer in the GitHub repo
-      - name: Delete old files
-        env:
-          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
-        run: |
-          existing_files=$(jq -r '.files[] | select(.is_directory == false) | .path' neocities_list.json)
-          for file in $existing_files; do
-            if [ ! -f "$file" ]; then
-              echo "Deleting $file from Neocities"
-              curl -X POST -F "filenames[]=$file" "https://neocities.org/api/delete" -H "Authorization: Bearer $NEOCITIES_API_KEY"
-            fi
-          done
-
-      # Step 4: Upload new and updated files (exclude unwanted files)
-      - name: Upload files to Neocities
-        env:
-          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
-        run: |
-          # Define paths to exclude
-          exclude_paths="./.github/* ./README.md"
-
-          # Upload only allowed file types, excluding unwanted paths
-          for file in $(find . -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.gif' \)); do
-            # Skip excluded paths
-            skip=false
-            for exclude in $exclude_paths; do
-              if [[ "$file" == $exclude ]]; then
-                skip=true
-                break
-              fi
-            done
-
-            if [ "$skip" = false ]; then
-              echo "Uploading $file to Neocities"
-              curl -F "file=@$file" "https://neocities.org/api/upload" -H "Authorization: Bearer $NEOCITIES_API_KEY"
-            fi
-          done
+      # Upload files not excluded
+      if [ "$skip" = false ]; then
+        echo "Uploading $file to Neocities"
+        curl -F "file=@$file" "https://neocities.org/api/upload" -H "Authorization: Bearer $NEOCITIES_API_KEY"
+      fi
+    done
