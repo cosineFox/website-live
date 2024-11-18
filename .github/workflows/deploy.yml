@@ -40,7 +40,7 @@ jobs:
             process.exit(1);
           }
 
-          const api = new Neocities(apiKey, true); // The second parameter indicates using an API key
+          const api = new Neocities(apiKey, ''); // Use API key as username and empty password
 
           // Define allowed file extensions
           const allowedExtensions = [
@@ -75,13 +75,13 @@ jobs:
           const localFilesList = getFiles('.');
 
           // Fetch current files on Neocities
-          api.list((resp) => {
+          api.info((resp) => { // Use api.info instead of api.list
             if (resp.result !== 'success') {
               console.error('Failed to fetch file list:', resp);
               process.exit(1);
             }
 
-            const neocitiesFiles = resp.files.map(file => file.path);
+            const neocitiesFiles = resp.info.files.map(file => file.path); // Access resp.info.files
 
             // Determine files to delete
             const filesToDelete = neocitiesFiles.filter(file => {
@@ -120,7 +120,7 @@ jobs:
           }
 
           // Initialize Neocities with API key
-          const api = new Neocities(apiKey, true);
+          const api = new Neocities(apiKey, '');
 
           // Define allowed file extensions
           const allowedExtensions = [
