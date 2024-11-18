@@ -1,0 +1,331 @@
+        /* Reset Styles */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #000000;
+            /* True black for OLED screens */
+            color: #cccccc;
+            /* Adjusted content text color */
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: #00ff00;
+            /* Green links */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #ff4500;
+            /* OrangeRed on hover */
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            /* Center the logo */
+            align-items: center;
+            padding: 15px 50px;
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+            transition: transform 0.3s ease-in-out;
+            overflow: hidden;
+            /* Added to prevent overflow */
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+            /* Slide the navbar up */
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            color: #ffffff;
+            /* Changed logo color to white */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            /* Added to prevent overflow */
+        }
+
+        /* Background Animation */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            /* Changed from -50% */
+            left: 0;
+            /* Changed from -50% */
+            width: 100%;
+            /* Changed from 200% */
+            height: 100%;
+            /* Changed from 200% */
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            33% {
+                background-position: 50% 50%;
+            }
+
+            66% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #ffffff;
+            /* Default text color */
+            animation: textColorAnimation 15s infinite;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            color: #ffffff;
+            animation: textColorAnimation 15s infinite;
+        }
+
+        /* Text Color Animation */
+        @keyframes textColorAnimation {
+            0% {
+                color: #ffffff;
+            }
+
+            /* When background is cyan */
+            50% {
+                color: #000000;
+            }
+
+            /* When background is yellow */
+            100% {
+                color: #ffffff;
+            }
+
+            /* Back to cyan */
+        }
+
+        .hero-content a.button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #000000;
+            color: #00ffff;
+            border: 2px solid #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
+            border-radius: 50px;
+            /* Rounded button */
+        }
+
+        .hero-content a.button:hover {
+            background-color: #00ffff;
+            color: #000000;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 20px;
+            position: relative;
+            color: #cccccc;
+            /* Adjusted content text color */
+            overflow: hidden;
+            /* Added to prevent overflow */
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #ffffff;
+            /* Changed heading color to white */
+        }
+
+        section p {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        section a {
+            color: #00ff00;
+            /* Green links */
+            transition: color 0.3s;
+        }
+
+        section a:hover {
+            color: #ff4500;
+            /* OrangeRed on hover */
+        }
+
+        /* Photo Grid Styles */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            display: block;
+        }
+
+        /* Background Decorations */
+        .section-background {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* Changed from 50% */
+            width: 100%;
+            /* Adjusted */
+            height: 100%;
+            transform: translateX(0%);
+            /* Changed from -50% */
+            background: radial-gradient(circle at top center, rgba(0, 255, 255, 0.1), transparent 70%);
+            z-index: -1;
+            animation: sectionAnimation 20s ease-in-out infinite;
+        }
+
+        @keyframes sectionAnimation {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Contact Section */
+        .contact {
+            text-align: center;
+        }
+
+        .contact img {
+            width: 200px;
+            max-width: 100%;
+            /* Added to prevent overflow */
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 2px solid #00ffff;
+        }
+
+        /* Neocities Section */
+        #neocities ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            max-width: 800px;
+        }
+
+        #neocities ul li {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #000000;
+            color: #cccccc;
+        }
+
+        footer p {
+            margin-bottom: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            color: #cccccc;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #00ff00;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .navbar .logo {
+                font-size: 1.2rem;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                /* Adjust grid for smaller screens */
+            }
+        }
