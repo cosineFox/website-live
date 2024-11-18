@@ -44,45 +44,50 @@ jobs:
 
           const api = new Neocities(username, password);
 
-          // Define allowed file extensions
-          const allowedExtensions = [
-            '.html', '.htm', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico',
-            '.md', '.markdown', '.js', '.json', '.geojson', '.css',
-            '.txt', '.text', '.csv', '.tsv', '.xml',
-            '.eot', '.ttf', '.woff', '.woff2'
-          ];
-
-          // Function to recursively collect allowed files
-          function getFiles(dir, fileList = []) {
-            const files = fs.readdirSync(dir);
-            files.forEach(file => {
-              if (file === '.git' || file === '.github') return; // Skip unwanted dirs
-
-              const filePath = path.join(dir, file);
-              const stat = fs.statSync(filePath);
-              if (stat.isDirectory()) {
-                getFiles(filePath, fileList);
-              } else {
-                const ext = path.extname(file).toLowerCase();
-                if (allowedExtensions.includes(ext)) {
-                  fileList.push(path.relative('.', filePath).replace(/\\\\/g, '/'));
-                }
-              }
-            });
-            return fileList;
-          }
-
-          // Collect local files
-          const localFilesList = getFiles('.');
-
           // Fetch current files on Neocities
           api.info((resp) => {
             if (resp.result !== 'success') {
-              console.error('Failed to fetch file list:', resp);
+              console.error('Failed to fetch file list:', JSON.stringify(resp, null, 2));
+              process.exit(1);
+            }
+
+            if (!resp.info || !resp.info.files) {
+              console.error('Unexpected API response format:', JSON.stringify(resp, null, 2));
               process.exit(1);
             }
 
             const neocitiesFiles = resp.info.files.map(file => file.path);
+
+            // Define allowed file extensions
+            const allowedExtensions = [
+              '.html', '.htm', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico',
+              '.md', '.markdown', '.js', '.json', '.geojson', '.css',
+              '.txt', '.text', '.csv', '.tsv', '.xml',
+              '.eot', '.ttf', '.woff', '.woff2'
+            ];
+
+            // Function to recursively collect allowed files
+            function getFiles(dir, fileList = []) {
+              const files = fs.readdirSync(dir);
+              files.forEach(file => {
+                if (file === '.git' || file === '.github') return;
+
+                const filePath = path.join(dir, file);
+                const stat = fs.statSync(filePath);
+                if (stat.isDirectory()) {
+                  getFiles(filePath, fileList);
+                } else {
+                  const ext = path.extname(file).toLowerCase();
+                  if (allowedExtensions.includes(ext)) {
+                    fileList.push(path.relative('.', filePath).replace(/\\\\/g, '/'));
+                  }
+                }
+              });
+              return fileList;
+            }
+
+            // Collect local files
+            const localFilesList = getFiles('.');
 
             // Determine files to delete
             const filesToDelete = neocitiesFiles.filter(file => {
@@ -104,67 +109,4 @@ jobs:
           });
           "
 
-      # Step 5: Deploy (upload) files to Neocities
-      - name: Deploy to Neocities
-        env:
-          NEOCITIES_USERNAME: ${{ secrets.NEOCITIES_USERNAME }}
-          NEOCITIES_PASSWORD: ${{ secrets.NEOCITIES_PASSWORD }}
-        run: |
-          node -e "
-          const Neocities = require('neocities');
-          const fs = require('fs');
-          const path = require('path');
-
-          const username = process.env.NEOCITIES_USERNAME;
-          const password = process.env.NEOCITIES_PASSWORD;
-          if (!username || !password) {
-            console.error('Username or Password is not set');
-            process.exit(1);
-          }
-
-          const api = new Neocities(username, password);
-
-          // Define allowed file extensions
-          const allowedExtensions = [
-            '.html', '.htm', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico',
-            '.md', '.markdown', '.js', '.json', '.geojson', '.css',
-            '.txt', '.text', '.csv', '.tsv', '.xml',
-            '.eot', '.ttf', '.woff', '.woff2'
-          ];
-
-          // Function to recursively collect allowed files
-          function getFiles(dir, fileList = []) {
-            const files = fs.readdirSync(dir);
-            files.forEach(file => {
-              if (file === '.git' || file === '.github') return;
-
-              const filePath = path.join(dir, file);
-              const stat = fs.statSync(filePath);
-              if (stat.isDirectory()) {
-                getFiles(filePath, fileList);
-              } else {
-                const ext = path.extname(file).toLowerCase();
-                if (allowedExtensions.includes(ext)) {
-                  fileList.push({
-                    name: path.relative('.', filePath).replace(/\\\\/g, '/'),
-                    path: filePath
-                  });
-                }
-              }
-            });
-            return fileList;
-          }
-
-          // Collect all files to upload
-          const filesToUpload = getFiles('.');
-
-          // Upload files to Neocities
-          api.upload(filesToUpload, (resp) => {
-            if (resp.result === 'success') {
-              console.log('Successfully deployed to Neocities.');
-            } else {
-              console.error('Deployment failed:', resp);
-              process.exit(1);
-            }
-          });
           "
