@@ -3,50 +3,59 @@ name: Sync Neocities with GitHub Repo
 on:
   push:
     branches:
-      - main  # Adjust to your deployment branch
+      - main  # Adjust this to your desired branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
+      # Step 1: Checkout the code from GitHub
       - name: Checkout code
         uses: actions/checkout@v3
 
       # Step 2: Fetch existing files from Neocities
-      - name: Fetch existing files from Neocities
+      - name: Fetch files from Neocities
         id: neocities_list
         env:
           NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
         run: |
           curl -s "https://neocities.org/api/list" -H "Authorization: Bearer $NEOCITIES_API_KEY" > neocities_list.json
 
-      # Step 3: Delete files from Neocities that do not exist locally
-      - name: Delete old files from Neocities
+      # Step 3: Delete files from Neocities that are no longer in the GitHub repo
+      - name: Delete old files
         env:
           NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
         run: |
-          # Get a list of files currently on Neocities
           existing_files=$(jq -r '.files[] | select(.is_directory == false) | .path' neocities_list.json)
-
-          # Loop through each existing file on Neocities
           for file in $existing_files; do
-            # If the file does not exist in the local GitHub repo, delete it from Neocities
             if [ ! -f "$file" ]; then
               echo "Deleting $file from Neocities"
               curl -X POST -F "filenames[]=$file" "https://neocities.org/api/delete" -H "Authorization: Bearer $NEOCITIES_API_KEY"
             fi
           done
 
-      # Step 4: Upload new and updated files to Neocities (filtered for allowed file types)
+      # Step 4: Upload new and updated files (exclude unwanted files)
       - name: Upload files to Neocities
         env:
           NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
         run: |
-          # Upload all allowed file types: HTML, CSS, JS, PNG, JPG, JPEG, GIF
-          for file in $(find . -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.gif' \)); do
-            echo "Uploading or updating $file to Neocities"
-            curl -F "file=@$file" "https://neocities.org/api/upload" -H "Authorization: Bearer $NEOCITIES_API_KEY"
-          done
+          # Define paths to exclude
+          exclude_paths="./.github/* ./README.md"
 
+          # Upload only allowed file types, excluding unwanted paths
+          for file in $(find . -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.gif' \)); do
+            # Skip excluded paths
+            skip=false
+            for exclude in $exclude_paths; do
+              if [[ "$file" == $exclude ]]; then
+                skip=true
+                break
+              fi
+            done
+
+            if [ "$skip" = false ]; then
+              echo "Uploading $file to Neocities"
+              curl -F "file=@$file" "https://neocities.org/api/upload" -H "Authorization: Bearer $NEOCITIES_API_KEY"
+            fi
+          done
