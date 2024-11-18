@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas-Labworks - Home</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&family=Montserrat:wght@700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <!-- ScrollTrigger Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <!-- Intersection Observer Polyfill for older browsers -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <h1 class="loading-text">Canvas-Labworks</h1>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Video Background -->
+        <img src="iroha.gif">
+        <video autoplay muted loop id="heroVideo">
+            <source src="iroha.mp4" type="video/mp4">
+            <!-- Fallback image -->
+            <img src="cat.png" alt="Hero Image">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <h1>Canvas-Labworks</h1>
+            <p>Where Simplicity Meets Innovation</p>
+            <div class="hero-buttons">
+                <a href="photography.html" class="button">Discover More</a>
+                <!-- zy_loading image on the right of the Discover More button -->
+                <img src="zy_loading.webp" alt="Loading" class="zy-loading-image" style="width: 120px; height: auto;">
+            </div>
+            <!-- Neocities Banner Icon below the Discover More button -->
+            <div class="neocities-banner">
+                <a href="https://neocities.org" target="_blank">
+                    <img src="neocitiesbadge.svg" alt="Neocities Banner" style="width: 250px; height: auto;">
+                </a>
+            </div>
+        </div>
+
+        <!-- Credits in the Bottom Left Corner -->
+        <div class="hero-credits">
+            <p><a href="https://www.x.com/ansancityboy" target="_blank">@ansancityboy</a> for the hero background</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="asymmetrical-container centered">
+            <div class="text-block">
+                <h2>About Me</h2>
+            </div>
+    
+            <!-- Desktop Version of Dev Card -->
+            <div class="dev-card-container desktop-card">
+                <a href="https://app.daily.dev/kytzu">
+                    <img src="https://api.daily.dev/devcards/v2/nKfdxHq0oStdDZwgmfqXn.png?type=wide&r=7zi" width="652"
+                        alt="KytZu's Dev Card" />
+                </a>
+            </div>
+    
+            <!-- Mobile Version of Dev Card -->
+            <div class="dev-card-container mobile-card">
+                <a href="https://app.daily.dev/kytzu">
+                    <img src="https://api.daily.dev/devcards/v2/nKfdxHq0oStdDZwgmfqXn.png?type=default&r=iyh" width="356"
+                        alt="KytZu's Dev Card" />
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Neocities Section -->
+    <section id="neocities" class="neocities-section">
+        <!-- Neocities Logo on the left of the title -->
+        <img src="neocitieslogo.svg" alt="Neocities Icon" style="width: 100px; height: auto; vertical-align: middle;">
+        <h2 style="display: inline-block; margin-left: 10px;">Neocities Resources</h2>
+        <p>This website is hosted on <a href="https://neocities.org" target="_blank">Neocities</a>, a fantastic platform for building and sharing simple websites.</p>
+        <ul>
+            <li><a href="https://neocities.org" target="_blank">Neocities Homepage</a></li>
+            <li><a href="https://neocities.org/tutorials" target="_blank">Neocities Tutorials</a></li>
+            <li><a href="https://learn.neocities.org" target="_blank">Learning Resources</a></li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Canvas-Labworks.</p>
+        <p>All cats reserved, FOR ME!! <img src="Grace.webp" style="width: 100px" alt="Grace"></p>
+        <p>Hosted on <a href="https://neocities.org" target="_blank">Neocities</a>.</p>
+        <p>Github and stuff are down there</p>
+        <div class="social-icons">
+            <a href="https://instagram.com/canvas_labworks" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://github.com/Canvas-Labworks/website" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+
+</html>
