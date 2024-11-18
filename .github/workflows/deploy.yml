@@ -3,26 +3,28 @@ name: Deploy to Neocities
 on:
   push:
     branches:
-      - main  # Change to the branch you're using for deployment (maybe `main` or `master`)
+      - main  # Adjust to whatever branch triggers the deployment
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        node-version: '20'
+      # Step 1: Setup Node.js (This part remains as it helps avoid warnings regarding Node.js versions)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
-    - name: Install cURL (just in case it's not there)
-      run: sudo apt-get install -y curl
+      # Step 2: Checkout code (Just checkout the code, no node-version)
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Upload to Neocities
-      env:
-        NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
-      run: |
-        # Loop through your website files and upload them
-        for file in $(find . -type f -not -path './.git/*' -not -path './.github/*'); do
-          curl -F "file=@$file" https://neocities.org/api/upload -H "Authorization: Bearer $NEOCITIES_API_KEY"
-        done
+      # Step 3: Deploy to Neocities
+      - name: Upload to Neocities
+        env:
+          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+        run: |
+          for file in $(find . -type f -not -path './.git/*' -not -path './.github/*'); do
+            curl -F "file=@$file" https://neocities.org/api/upload -H "Authorization: Bearer $NEOCITIES_API_KEY"
+          done
