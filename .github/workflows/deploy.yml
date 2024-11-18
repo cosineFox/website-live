@@ -18,7 +18,7 @@ jobs:
 
     - name: Upload to Neocities
       env:
-        NEOCITIES_API_KEY: ${{ secrets.683f197cfd1ad32797a214ca28ebeaf2 }}
+        NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
       run: |
         # Loop through your website files and upload them
         for file in $(find . -type f -not -path './.git/*' -not -path './.github/*'); do
