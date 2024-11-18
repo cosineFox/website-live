@@ -1,77 +1,169 @@
-- name: Delete removed files from Neocities
-  env:
-    NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
-  run: |
-    node -e "
-    const Neocities = require('neocities');
-    const fs = require('fs');
-    const path = require('path');
+name: Deploy to Neocities
 
-    const apiKey = process.env.NEOCITIES_API_KEY;
-    if (!apiKey) {
-      console.error('NEOCITIES_API_KEY is not set');
-      process.exit(1);
-    }
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if it's different
 
-    const api = new Neocities(apiKey, true); // The second parameter indicates using an API key
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-    // Define allowed file extensions
-    const allowedExtensions = [
-      '.html', '.htm', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico',
-      '.md', '.markdown', '.js', '.json', '.geojson', '.css',
-      '.txt', '.text', '.csv', '.tsv', '.xml',
-      '.eot', '.ttf', '.woff', '.woff2'
-    ];
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    // Function to recursively collect allowed files
-    function getFiles(dir, fileList = []) {
-      const files = fs.readdirSync(dir);
-      files.forEach(file => {
-        // Skip the .git directory and workflow files
-        if (file === '.git' || file === '.github') return;
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Specify the Node.js version you prefer
 
-        const filePath = path.join(dir, file);
-        const stat = fs.statSync(filePath);
-        if (stat.isDirectory()) {
-          getFiles(filePath, fileList);
-        } else {
-          const ext = path.extname(file).toLowerCase();
-          if (allowedExtensions.includes(ext)) {
-            fileList.push(path.relative('.', filePath).replace(/\\\\/g, '/'));
-          }
-        }
-      });
-      return fileList;
-    }
+      # Step 3: Install Neocities module
+      - name: Install Neocities module
+        run: npm install neocities
 
-    // Collect local files
-    const localFilesList = getFiles('.');
+      # Step 4: Delete removed files from Neocities
+      - name: Delete removed files from Neocities
+        env:
+          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+        run: |
+          node -e "
+          const Neocities = require('neocities');
+          const fs = require('fs');
+          const path = require('path');
 
-    // Fetch current files on Neocities
-    api.list((resp) => {
-      if (resp.result !== 'success') {
-        console.error('Failed to fetch file list:', resp);
-        process.exit(1);
-      }
-
-      const neocitiesFiles = resp.files.map(file => file.path);
-
-      // Determine files to delete
-      const filesToDelete = neocitiesFiles.filter(file => {
-        return !localFilesList.includes(file) && file !== 'index.html';
-      });
-
-      if (filesToDelete.length > 0) {
-        api.delete(filesToDelete, (deleteResp) => {
-          if (deleteResp.result === 'success') {
-            console.log('Successfully deleted files:', filesToDelete);
-          } else {
-            console.error('Failed to delete files:', deleteResp);
+          const apiKey = process.env.NEOCITIES_API_KEY;
+          if (!apiKey) {
+            console.error('NEOCITIES_API_KEY is not set');
             process.exit(1);
           }
-        });
-      } else {
-        console.log('No files to delete.');
-      }
-    });
-    "
+
+          const api = new Neocities(apiKey, true); // The second parameter indicates using an API key
+
+          // Define allowed file extensions
+          const allowedExtensions = [
+            '.html', '.htm', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico',
+            '.md', '.markdown', '.js', '.json', '.geojson', '.css',
+            '.txt', '.text', '.csv', '.tsv', '.xml',
+            '.eot', '.ttf', '.woff', '.woff2'
+          ];
+
+          // Function to recursively collect allowed files
+          function getFiles(dir, fileList = []) {
+            const files = fs.readdirSync(dir);
+            files.forEach(file => {
+              // Skip the .git directory and workflow files
+              if (file === '.git' || file === '.github') return;
+
+              const filePath = path.join(dir, file);
+              const stat = fs.statSync(filePath);
+              if (stat.isDirectory()) {
+                getFiles(filePath, fileList);
+              } else {
+                const ext = path.extname(file).toLowerCase();
+                if (allowedExtensions.includes(ext)) {
+                  fileList.push(path.relative('.', filePath).replace(/\\\\/g, '/'));
+                }
+              }
+            });
+            return fileList;
+          }
+
+          // Collect local files
+          const localFilesList = getFiles('.');
+
+          // Fetch current files on Neocities
+          api.list((resp) => {
+            if (resp.result !== 'success') {
+              console.error('Failed to fetch file list:', resp);
+              process.exit(1);
+            }
+
+            const neocitiesFiles = resp.files.map(file => file.path);
+
+            // Determine files to delete
+            const filesToDelete = neocitiesFiles.filter(file => {
+              return !localFilesList.includes(file) && file !== 'index.html';
+            });
+
+            if (filesToDelete.length > 0) {
+              api.delete(filesToDelete, (deleteResp) => {
+                if (deleteResp.result === 'success') {
+                  console.log('Successfully deleted files:', filesToDelete);
+                } else {
+                  console.error('Failed to delete files:', deleteResp);
+                  process.exit(1);
+                }
+              });
+            } else {
+              console.log('No files to delete.');
+            }
+          });
+          "
+
+      # Step 5: Deploy (upload) files to Neocities
+      - name: Deploy to Neocities
+        env:
+          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+        run: |
+          node -e "
+          const Neocities = require('neocities');
+          const fs = require('fs');
+          const path = require('path');
+
+          const apiKey = process.env.NEOCITIES_API_KEY;
+          if (!apiKey) {
+            console.error('NEOCITIES_API_KEY is not set');
+            process.exit(1);
+          }
+
+          // Initialize Neocities with API key
+          const api = new Neocities(apiKey, true);
+
+          // Define allowed file extensions
+          const allowedExtensions = [
+            '.html', '.htm', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico',
+            '.md', '.markdown', '.js', '.json', '.geojson', '.css',
+            '.txt', '.text', '.csv', '.tsv', '.xml',
+            '.eot', '.ttf', '.woff', '.woff2'
+          ];
+
+          // Function to recursively collect allowed files
+          function getFiles(dir, fileList = []) {
+            const files = fs.readdirSync(dir);
+            files.forEach(file => {
+              // Skip the .git directory and workflow files
+              if (file === '.git' || file === '.github') return;
+
+              const filePath = path.join(dir, file);
+              const stat = fs.statSync(filePath);
+              if (stat.isDirectory()) {
+                getFiles(filePath, fileList);
+              } else {
+                const ext = path.extname(file).toLowerCase();
+                if (allowedExtensions.includes(ext)) {
+                  fileList.push({
+                    name: path.relative('.', filePath).replace(/\\\\/g, '/'),
+                    path: filePath
+                  });
+                }
+              }
+            });
+            return fileList;
+          }
+
+          // Collect all files to upload
+          const filesToUpload = getFiles('.');
+
+          // Upload files to Neocities
+          api.upload(filesToUpload, (resp) => {
+            if (resp.result === 'success') {
+              console.log('Successfully deployed to Neocities.');
+            } else {
+              console.error('Deployment failed:', resp);
+              process.exit(1);
+            }
+          });
+          "
