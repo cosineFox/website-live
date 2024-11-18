@@ -1,3 +1,4 @@
+# Workflow file: .github/workflows/deploy.yml
 name: Deploy to Neocities
 
 on:
@@ -24,19 +25,20 @@ jobs:
       - name: Install Neocities module
         run: npm install neocities
 
-      # Step 4: Run the Node.js deployment script
+      # Step 4: Deploy with username/password
       - name: Deploy to Neocities
         env:
-          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+          NEOCITIES_USERNAME: ${{ secrets.NEOCITIES_USERNAME }}
+          NEOCITIES_PASSWORD: ${{ secrets.NEOCITIES_PASSWORD }}
         run: |
           node -e "
           const Neocities = require('neocities');
-          const api = new Neocities(process.env.NEOCITIES_API_KEY);
+          const api = new Neocities(process.env.NEOCITIES_USERNAME, process.env.NEOCITIES_PASSWORD);
 
-          // Test API key connection
+          // Test user/pass connection
           api.info((resp) => {
               if (resp.result !== 'success') {
-                  console.error('API Error:', resp.message);
+                  console.error('Auth Error:', resp.message);
                   process.exit(1);
               } else {
                   console.log('Connected to Neocities successfully.');
