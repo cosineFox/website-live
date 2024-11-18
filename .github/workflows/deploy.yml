@@ -1,24 +1,88 @@
-- name: Upload files to Neocities
-  env:
-    NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
-  run: |
-    # Define paths and file types to exclude
-    exclude_paths="./.github/* ./README.md"
-    
-    # Upload only allowed file types, excluding unwanted paths
-    for file in $(find . -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.gif' \)); do
-      # Skip excluded paths
-      skip=false
-      for exclude in $exclude_paths; do
-        if [[ "$file" == $exclude ]]; then
-          skip=true
-          break
-        fi
-      done
+name: Deploy to Neocities
 
-      # Upload files not excluded
-      if [ "$skip" = false ]; then
-        echo "Uploading $file to Neocities"
-        curl -F "file=@$file" "https://neocities.org/api/upload" -H "Authorization: Bearer $NEOCITIES_API_KEY"
-      fi
-    done
+# Trigger the workflow on push events to the main branch
+on:
+  push:
+    branches:
+      - main  # Change to your default branch if different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Specify Node.js version
+
+      # Step 3: Install Neocities module
+      - name: Install Neocities module
+        run: npm install neocities
+
+      # Step 4: Deploy to Neocities
+      - name: Deploy to Neocities
+        env:
+          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+        run: |
+          node -e "
+          const Neocities = require('neocities');
+          const fs = require('fs');
+          const path = require('path');
+
+          const apiKey = process.env.NEOCITIES_API_KEY;
+          if (!apiKey) {
+            console.error('NEOCITIES_API_KEY is not set');
+            process.exit(1);
+          }
+
+          // Initialize Neocities with API key
+          const api = new Neocities(apiKey, true); // The second parameter indicates using an API key
+
+          // Define allowed file extensions
+          const allowedExtensions = [
+            '.html', '.htm', '.jpg', '.png', '.gif', '.svg', '.ico',
+            '.md', '.markdown', '.js', '.json', '.geojson', '.css',
+            '.txt', '.text', '.csv', '.tsv', '.xml',
+            '.eot', '.ttf', '.woff', '.woff2'
+          ];
+
+          // Function to recursively collect allowed files
+          function getFiles(dir, fileList = []) {
+            const files = fs.readdirSync(dir);
+            files.forEach(file => {
+              const filePath = path.join(dir, file);
+              const stat = fs.statSync(filePath);
+              if (stat.isDirectory()) {
+                getFiles(filePath, fileList);
+              } else {
+                const ext = path.extname(file).toLowerCase();
+                if (allowedExtensions.includes(ext)) {
+                  fileList.push({
+                    name: path.relative('.', filePath).replace(/\\/g, '/'),
+                    path: filePath
+                  });
+                }
+              }
+            });
+            return fileList;
+          }
+
+          // Collect all files to upload
+          const filesToUpload = getFiles('.');
+
+          // Upload files to Neocities
+          api.upload(filesToUpload, (resp) => {
+            if (resp.result === 'success') {
+              console.log('Successfully deployed to Neocities.');
+            } else {
+              console.error('Deployment failed:', resp);
+              process.exit(1);
+            }
+          });
+          "
