@@ -3,7 +3,7 @@ name: Deploy to Neocities
 on:
   push:
     branches:
-      - website  # Change to the branch you're using for deployment (maybe `main` or `master`)
+      - main  # Change to the branch you're using for deployment (maybe `main` or `master`)
 
 jobs:
   deploy:
