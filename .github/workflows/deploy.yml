@@ -45,18 +45,13 @@ jobs:
           const api = new Neocities(username, password);
 
           // Fetch current files on Neocities
-          api.info((resp) => {
+          api.list((resp) => {
             if (resp.result !== 'success') {
               console.error('Failed to fetch file list:', JSON.stringify(resp, null, 2));
               process.exit(1);
             }
 
-            if (!resp.info || !resp.info.files) {
-              console.error('Unexpected API response format:', JSON.stringify(resp, null, 2));
-              process.exit(1);
-            }
-
-            const neocitiesFiles = resp.info.files.map(file => file.path);
+            const neocitiesFiles = resp.files.map(file => file.path);
 
             // Define allowed file extensions
             const allowedExtensions = [
@@ -109,4 +104,3 @@ jobs:
           });
           "
 
-          "
