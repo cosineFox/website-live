@@ -1,9 +1,9 @@
-name: Deploy to Neocities
+name: Sync Neocities with GitHub Repo
 
 on:
   push:
     branches:
-      - main  # Change to whichever branch you want to deploy from
+      - main  # Adjust to your deployment branch
 
 jobs:
   deploy:
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up variables and get the list of existing files on Neocities
+      # Step 2: Fetch existing files from Neocities
       - name: Fetch existing files from Neocities
         id: neocities_list
         env:
@@ -27,19 +27,25 @@ jobs:
         env:
           NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
         run: |
-          # Get a list of files to delete based on the JSON list fetched earlier
-          for file in $(jq -r '.files[] | select(.is_directory == false) | .path' neocities_list.json); do
+          # Get a list of files currently on Neocities
+          existing_files=$(jq -r '.files[] | select(.is_directory == false) | .path' neocities_list.json)
+
+          # Loop through each existing file on Neocities
+          for file in $existing_files; do
+            # If the file does not exist in the local GitHub repo, delete it from Neocities
             if [ ! -f "$file" ]; then
               echo "Deleting $file from Neocities"
               curl -X POST -F "filenames[]=$file" "https://neocities.org/api/delete" -H "Authorization: Bearer $NEOCITIES_API_KEY"
             fi
           done
 
-      # Step 4: Upload all files to Neocities
-      - name: Upload to Neocities
+      # Step 4: Upload new and updated files to Neocities
+      - name: Upload files to Neocities
         env:
           NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
         run: |
-          for file in $(find . -type f -not -path './.git/*' -not -path './.github/*' -not -name 'deploy.yml'); do
+          # Upload all allowed file types: HTML, CSS, JS, PNG, JPG, JPEG, GIF
+          for file in $(find . -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.gif' \)); do
+            echo "Uploading or updating $file to Neocities"
             curl -F "file=@$file" "https://neocities.org/api/upload" -H "Authorization: Bearer $NEOCITIES_API_KEY"
           done
