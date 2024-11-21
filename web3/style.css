@@ -1,0 +1,156 @@
+        body {
+            background-image: url('iroha.gif');
+            background-repeat: repeat;
+            font-family: 'Courier New', Courier, monospace;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+            cursor: url('cursor_1.png'), auto;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Header */
+        .header {
+            background-color: #FFD700;
+            padding: 10px 0;
+            border-bottom: 2px solid #000;
+        }
+
+        /* Main Content */
+        .content {
+            width: 100%;
+            display: table;
+        }
+
+        .left,
+        .right {
+            width: 25%;
+            display: table-cell;
+            vertical-align: top;
+            background-color: #E0E0E0;
+        }
+
+        .middle {
+            width: 50%;
+            display: table-cell;
+            vertical-align: top;
+            background-color: #FFFFFF;
+        }
+
+        /* Sections */
+        .section {
+            margin: 5px;
+            padding: 5px;
+            border: 2px dashed #000;
+            background-color: #FFFACD;
+        }
+
+        .section h2 {
+            color: #FF4500;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        /* Links in Sections */
+        .section a {
+            display: block;
+            text-align: left;
+            padding-left: 10px;
+            margin-bottom: 5px;
+            color: #0000FF;
+            text-decoration: none;
+        }
+
+        .section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #FFA500;
+            padding: 5px 0;
+            border-top: 2px solid #000;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Marquee */
+            .marquee {
+                font-size: 20px;
+                color: #FFFFFF;
+                background-color: #FF4500;
+                padding: 5px 0;
+                text-align: center;
+            }
+
+        /* Buttons */
+        .button {
+            background-color: #FF4500;
+            color: #FFFFFF;
+            padding: 3px 5px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #000;
+            margin: 3px;
+            display: inline-block;
+            font-size: 12px;
+        }
+
+        .button:hover {
+            background-color: #FF6347;
+        }
+
+        /* Social Icons */
+        .social-icons img {
+            width: 24px;
+            height: 24px;
+            margin: 2px;
+        }
+
+        /* Blink Animation */
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Left Align Bullet Points */
+        ul {
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        /* Affiliate Links Padding */
+        .affiliate-links {
+            padding-left: 5px;
+        }
+
+        /* Center Elements */
+        .center {
+            text-align: center;
+        }
+
+        /* Center content in Neocities Section */
+        .section-center {
+            text-align: center;
+        }
+                .dev-card-container {
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: fit-content;
+                    /* Only as wide as the content, to help center it */
+                    padding-top: 10px;
+                    /* Optional: gives a little breathing room on top */
+                    text-align: center;
+                }
+
