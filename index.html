@@ -1,125 +1,231 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
 
 <head>
-    <!-- Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas-Labworks - Home</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&family=Montserrat:wght@700&display=swap"
-        rel="stylesheet">
+    <title>Canvas-Labworks</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
-    <!-- GSAP Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" crossorigin="anonymous"
-        referrerpolicy="no-referrer"></script>
-    <!-- ScrollTrigger Plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" crossorigin="anonymous"
-        referrerpolicy="no-referrer"></script>
-    <!-- Intersection Observer Polyfill for older browsers -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Chattable Scripts -->
+    <script src="https://chattable.neocities.org/scripts/main.min.js"></script>
+    <script>
+        chattable.initialize({
+            stylesheet: "/style.css",
+        });
+    </script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="c980bbe3-9e77-4912-bb6a-bf252aa6c800"></script>
 </head>
 
 <body>
 
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <h1 class="loading-text">Canvas-Labworks</h1>
+    <!-- Marquee Heading -->
+    <marquee class="marquee" behavior="scroll" direction="left" scrollamount="8">
+        Need someone to watch your walls dry? Contact Us!
+        <span class="blink">Limited Time Offer!</span>
+    </marquee>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Header with Images -->
+        <div class="header">
+            <!-- Removed animated_welcome.gif -->
+            <img src="images/armed.gif" alt="Armed Image" width="200" border="0">
+            <img src="images/TOS.gif" alt="Terms of Service" width="200" border="0">
+            <img src="images/atari_times.png" alt="Atari Times" width="200" border="0">
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+
+            <!-- Left Sidebar -->
+            <div class="left">
+                <!-- Navigation Section -->
+                <div class="section">
+                    <h2>Navigation</h2>
+                    <a href="index.html">Home</a>
+                    <a href="projects.html">Projects</a>
+                    <a href="photography.html">Photos</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="guestbook.html">Guestbook</a>
+                </div>
+
+                <!-- Affiliates Section -->
+                <div class="section">
+                    <h2>Affiliates</h2>
+                    <div class="affiliate-links">
+                        <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank"><img src="images/firefoxget.gif" alt="Affiliate" border="0"></a>
+                        <br>
+                        <!-- Add more affiliate links as needed -->
+                    </div>
+                </div>
+
+                <!-- Banners Section -->
+                <div class="section">
+                    <h2>Banners</h2>
+                    <table border="0" cellspacing="5" cellpadding="5">
+                        <!-- First Row -->
+                        <tr>
+                            <td><img src="images/half-life.gif" alt="Banner" width="88" height="31" border="0"></td>
+                            <td><img src="images/geocitieslight.gif" alt="Banner" width="88" height="31" border="0">
+                            </td>
+                        </tr>
+                        <!-- Second Row -->
+                        <tr>
+                            <td><img src="images/TOS.gif" alt="Banner" width="88" height="31" border="0"></td>
+                            <td><img src="images/TOS.gif" alt="Banner" width="88" height="31" border="0"></td>
+                        </tr>
+                        <!-- Add more rows as needed up to 10 rows -->
+                    </table>
+                </div>
+
+                <!-- Chat Section -->
+                <div class="section">
+                    <iframe src='https://iframe.chat/embed/index.html?chat=39104344' id='chattable' frameborder='0'
+                        width='100%' height='200'></iframe>
+                </div>
+            </div>
+
+            <!-- Middle Content -->
+            <div class="middle">
+                <!-- Visitor Counter above the content -->
+                <div class="section center">
+                    <h2>Visitor Counter</h2>
+                    <span id="hitcount"></span>
+                    <script>
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                var site_data = JSON.parse(this.responseText);
+                                var num_arr = site_data.info.views.toString().split("");
+                                var num_str = "";
+                                for (i = 0; i < num_arr.length; i++) {
+                                    num_str += `<img src="count/c` + num_arr[i] + `.gif"/>`;
+                                    if ((num_arr.length - 1 - i) % 3 == 0 && (num_arr.length - 1 - i) != 0) { num_str += ","; }
+                                }
+                                document.getElementById("hitcount").innerHTML = num_str;
+                            }
+                        };
+                        xhttp.open("GET", "https://weirdscifi.ratiosemper.com/neocities.php?sitename=canvas-labworks", true);
+                        xhttp.send();
+                    </script>
+                </div>
+
+                <!-- Welcome Section -->
+                <div class="section">
+                    <h2>Welcome!</h2>
+                    <img src="images/iroha.gif" alt="Hero Image" width="100%" border="0">
+                    <!-- Images Above Text -->
+                    <br>
+                    <br>
+                    <img src="images/gethtmlnow.gif" alt="Get HTML Now" width="100" border="0">
+                    <img src="images/kitten88.gif" alt="Kitten" width="100" border="0">
+                    <p>Hello! Welcome to my personal website where I share my projects and photography. Dive in to
+                        explore more!</p>
+                    <a href="photography.html" class="button">Discover More</a>
+                </div>
+
+                <!-- About Me Section -->
+                <div class="section">
+                    <h2>About Me</h2>
+                    <!-- Existing Image -->
+                    <img src="images/profile.jpg" alt="About Me Image" width="300" border="0">
+                    <p>I'm a web developer with a passion for creating simple yet innovative solutions. Welcome to my
+                        cluttered corner of the internet!</p>
+                </div>
+
+                <!-- Neocities Section -->
+                <div class="section section-center">
+                    <h2>Neocities Resources</h2>
+                    <img src="images/neocitiesbadge.svg" alt="Neocities Badge" width="100" border="0">
+                    <p>This website is hosted on <a href="https://neocities.org" target="_blank">Neocities</a>, a
+                        fantastic platform for building and sharing simple websites.</p>
+                    <ul>
+                        <li><a href="https://neocities.org" target="_blank">Neocities Homepage</a></li>
+                        <li><a href="https://neocities.org/tutorials" target="_blank">Neocities Tutorials</a></li>
+                        <li><a href="https://learn.neocities.org" target="_blank">Learning Resources</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="right">
+                <!-- Updates Section -->
+                <div class="section">
+                    <h2>Latest Updates</h2>
+                    <marquee behavior="scroll" direction="down" scrollamount="2" height="100">
+                        <ul>
+                            <li><b>10/15/24:</b> Launched new projects page!</li>
+                            <li><b>09/30/24:</b> Added new photos to the gallery.</li>
+                            <!-- More updates -->
+                        </ul>
+                    </marquee>
+                    <a href="https://status.cafe"><img src="https://status.cafe/assets/button.png" alt="Status Cafe"
+                            border="0" /></a>
+                </div>
+
+                <!-- Credits Section -->
+                <div class="section">
+                    <h2>Credits</h2>
+                    <p>Special thanks to:</p>
+                    <ul>
+                        <img src="images/neocitieslogo.svg" alt="Neocities Logo" width="100" border="0">
+                        <li><a href="https://neocities.org" target="_blank">Neocities</a></li>
+                        <li><a href="https://www.x.com/ansancityboy" target="_blank">@ansancityboy</a> for the Iroha animation</li>
+                        <!-- Add more credits -->
+                    </ul>
+                </div>
+
+                <!-- Warning Section -->
+                <div class="section">
+                    <h2>Warning</h2>
+                    <p><span class="blink">This site is under
+                            construction!</span></p>
+                </div>
+
+                <!-- Dev Card Section -->
+                <div class="section">
+                    <h2>Dev Card</h2>
+                    <div class="dev-card-container">
+                        <a href="https://app.daily.dev/kytzu">
+                            <img src="https://api.daily.dev/devcards/v2/nKfdxHq0oStdDZwgmfqXn.png?type=default&r=iyh"
+                                width="300" alt="KytZu's Dev Card" />
+                        </a>
+                    </div>
+                    <!-- Include lovelyday.gif below the dev card -->
+                    <br>
+                    <img src="images/lovelyday.gif" alt="Lovely Day" border="0">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <!-- Grace.webp above 'All cats reserved' -->
+            <img src="images/Grace.webp" width="100" alt="Grace" border="0">
+            <p>All cats reserved, FOR ME!!</p>
+            <p>© 2024 Canvas-Labworks.</p>
+            <p>Hosted on <a href="https://neocities.org" target="_blank">Neocities</a>.</p>
+            <p>GitHub and stuff are down there</p>
+            <div class="social-icons">
+                <a href="https://instagram.com/canvas_labworks" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/CosineFox/website-live" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+            <!-- Tracking Link with Disclaimer -->
+            <p>
+                <small>
+                    Curious about how this website is performing? Check out the <a
+                        href="https://cloud.umami.is/share/wPj1S9i5B6gGbhUW/canvas-labworks.neocities.org"
+                        target="_blank">web performance statistics</a>.
+                </small>
+            </p>
+        </div>
+
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <!-- Video Background -->
-        <img src="iroha.gif">
-        <video autoplay muted loop id="heroVideo">
-            <source src="iroha.mp4" type="video/mp4">
-            <!-- Fallback image -->
-            <img src="cat.png" alt="Hero Image">
-        </video>
-        <div class="hero-overlay"></div>
-
-        <!-- Hero Content -->
-        <div class="hero-content">
-            <h1>Canvas-Labworks</h1>
-            <p>Where Simplicity Meets Innovation</p>
-            <div class="hero-buttons">
-                <a href="photography.html" class="button">Discover More</a>
-                <!-- zy_loading image on the right of the Discover More button -->
-                <img src="zy_loading.webp" alt="Loading" class="zy-loading-image" style="width: 120px; height: auto;">
-            </div>
-            <!-- Neocities Banner Icon below the Discover More button -->
-            <div class="neocities-banner">
-                <a href="https://neocities.org" target="_blank">
-                    <img src="neocitiesbadge.svg" alt="Neocities Banner" style="width: 250px; height: auto;">
-                </a>
-            </div>
-        </div>
-
-        <!-- Credits in the Bottom Left Corner -->
-        <div class="hero-credits">
-            <p><a href="https://www.x.com/ansancityboy" target="_blank">@ansancityboy</a> for the background</p>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about-section">
-        <div class="asymmetrical-container centered">
-            <div class="text-block">
-                <h2>About Me</h2>
-            </div>
-    
-            <!-- Desktop Version of Dev Card -->
-            <div class="dev-card-container desktop-card">
-                <a href="https://app.daily.dev/csfox">
-                    <img src="https://api.daily.dev/devcards/v2/nKfdxHq0oStdDZwgmfqXn.png?type=wide&r=7zi" width="652"
-                        alt="KytZu's Dev Card" />
-                </a>
-            </div>
-    
-            <!-- Mobile Version of Dev Card -->
-            <div class="dev-card-container mobile-card">
-                <a href="https://app.daily.dev/csfox">
-                    <img src="https://api.daily.dev/devcards/v2/nKfdxHq0oStdDZwgmfqXn.png?type=default&r=iyh" width="356"
-                        alt="KytZu's Dev Card" />
-                </a>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Neocities Section -->
-    <section id="neocities" class="neocities-section">
-        <!-- Neocities Logo on the left of the title -->
-        <img src="neocitieslogo.svg" alt="Neocities Icon" style="width: 100px; height: auto; vertical-align: middle;">
-        <h2 style="display: inline-block; margin-left: 10px;">Neocities Resources</h2>
-        <p>This website is hosted on <a href="https://neocities.org" target="_blank">Neocities</a>, a fantastic platform for building and sharing simple websites.</p>
-        <ul>
-            <li><a href="https://neocities.org" target="_blank">Neocities Homepage</a></li>
-            <li><a href="https://neocities.org/tutorials" target="_blank">Neocities Tutorials</a></li>
-            <li><a href="https://learn.neocities.org" target="_blank">Learning Resources</a></li>
-        </ul>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>© 2024 Canvas-Labworks.</p>
-        <p>All cats reserved, FOR ME!! <img src="Grace.webp" style="width: 100px" alt="Grace"></p>
-        <p>Hosted on <a href="https://neocities.org" target="_blank">Neocities</a>.</p>
-        <p>Github and stuff are down there</p>
-        <div class="social-icons">
-            <a href="https://instagram.com/canvas_labworks" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://github.com/cosineFox/website-live" target="_blank"><i class="fab fa-github"></i></a>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="script.js"></script>
 </body>
 
 </html>
