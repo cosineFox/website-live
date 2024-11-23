@@ -31,7 +31,6 @@
 
         <!-- Header with Images -->
         <div class="header">
-            <!-- Removed animated_welcome.gif -->
             <img src="images/armed.gif" alt="Armed Image" width="200" border="0">
             <img src="images/TOS.gif" alt="Terms of Service" width="200" border="0">
             <img src="images/atari_times.png" alt="Atari Times" width="200" border="0">
@@ -47,25 +46,26 @@
                     <h2>Navigation</h2>
                     <a href="index.html">Home</a>
                     <a href="projects.html">Projects</a>
-                    <a href="photography.html">Photos</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="guestbook.html">Guestbook</a>
+                    <a href="photography.html">Photography</a>
+                    <br><br>
                 </div>
 
                 <!-- Affiliates Section -->
                 <div class="section">
                     <h2>Affiliates</h2>
                     <div class="affiliate-links">
-                        <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank"><img src="images/firefoxget.gif" alt="Affiliate" border="0"></a>
-                        <br>
-                        <!-- Add more affiliate links as needed -->
+                        <tr>
+                            <td><a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank"><img src="images/firefoxget.gif" alt="Affiliate" border="0"></a></td>
+                            
+                        </tr>
+                        <br><br>
                     </div>
                 </div>
 
                 <!-- Banners Section -->
                 <div class="section">
                     <h2>Banners</h2>
-                    <table border="0" cellspacing="5" cellpadding="5">
+                    <table border="0" cellspacing="5" cellpadding="5" class="affiliate-links">
                         <!-- First Row -->
                         <tr>
                             <td><img src="images/half-life.gif" alt="Banner" width="88" height="31" border="0"></td>
@@ -74,17 +74,18 @@
                         </tr>
                         <!-- Second Row -->
                         <tr>
-                            <td><img src="images/TOS.gif" alt="Banner" width="88" height="31" border="0"></td>
-                            <td><img src="images/TOS.gif" alt="Banner" width="88" height="31" border="0"></td>
+                            <td><img src="images/valid-html401.gif" alt="Banner" width="88" height="31" border="0"></td>
+                            <td><img src="images/vivibutton1.gif" alt="Banner" width="88" height="31" border="0"></td>
                         </tr>
                         <!-- Add more rows as needed up to 10 rows -->
                     </table>
+                    <br>
                 </div>
 
                 <!-- Chat Section -->
                 <div class="section">
                     <iframe src='https://iframe.chat/embed/index.html?chat=39104344' id='chattable' frameborder='0'
-                        width='100%' height='200'></iframe>
+                        width='100%' height='300'></iframe>
                 </div>
             </div>
 
@@ -111,6 +112,7 @@
                         xhttp.open("GET", "https://weirdscifi.ratiosemper.com/neocities.php?sitename=canvas-labworks", true);
                         xhttp.send();
                     </script>
+                    <br><br>
                 </div>
 
                 <!-- Welcome Section -->
@@ -118,13 +120,18 @@
                     <h2>Welcome!</h2>
                     <img src="images/iroha.gif" alt="Hero Image" width="100%" border="0">
                     <!-- Images Above Text -->
-                    <br>
-                    <br>
+                    <br><br>
                     <img src="images/gethtmlnow.gif" alt="Get HTML Now" width="100" border="0">
                     <img src="images/kitten88.gif" alt="Kitten" width="100" border="0">
                     <p>Hello! Welcome to my personal website where I share my projects and photography. Dive in to
                         explore more!</p>
-                    <a href="photography.html" class="button">Discover More</a>
+                    <a href="photography.html">Photography Page (constructing)</a>
+                    <a href="">Projects (empty)</a>
+                    <br><br>
+                    <img src="images/uybn3.gif" alt="Star" width="100" border="0">
+                    <img src="images/animeland.gif" alt="Star" width="100" border="0">
+                    <img src="images/vipper.gif" alt="Star" width="100" border="0">
+                    <br><br>
                 </div>
 
                 <!-- About Me Section -->
@@ -132,16 +139,17 @@
                     <h2>About Me</h2>
                     <!-- Existing Image -->
                     <img src="images/profile.jpg" alt="About Me Image" width="300" border="0">
-                    <p>I'm a web developer with a passion for creating simple yet innovative solutions. Welcome to my
+                    <p>I'm Clement, an IT student studying at UTP. Welcome to my
                         cluttered corner of the internet!</p>
                 </div>
 
                 <!-- Neocities Section -->
                 <div class="section section-center">
                     <h2>Neocities Resources</h2>
-                    <img src="images/neocitiesbadge.svg" alt="Neocities Badge" width="100" border="0">
-                    <p>This website is hosted on <a href="https://neocities.org" target="_blank">Neocities</a>, a
-                        fantastic platform for building and sharing simple websites.</p>
+                    <p>This website is hosted on</p>
+                    <a href="https://neocities.org" target="_blank"><img src="images/neocitiesbadge.svg" alt="Neocities Badge" width="100"
+                            border="0"></a>
+                        <p> a fantastic platform for building and sharing simple websites.</p>
                     <ul>
                         <li><a href="https://neocities.org" target="_blank">Neocities Homepage</a></li>
                         <li><a href="https://neocities.org/tutorials" target="_blank">Neocities Tutorials</a></li>
@@ -154,28 +162,29 @@
             <div class="right">
                 <!-- Updates Section -->
                 <div class="section">
-                    <h2>Latest Updates</h2>
-                    <marquee behavior="scroll" direction="down" scrollamount="2" height="100">
-                        <ul>
-                            <li><b>10/15/24:</b> Launched new projects page!</li>
-                            <li><b>09/30/24:</b> Added new photos to the gallery.</li>
-                            <!-- More updates -->
-                        </ul>
-                    </marquee>
+                    <div id="statuscafe">
+                        <div id="statuscafe-username"></div>
+                        <div id="statuscafe-content"></div>
+                    </div>
+                    <script src="https://status.cafe/current-status.js?name=kytzu" defer></script>
+                    <br>
                     <a href="https://status.cafe"><img src="https://status.cafe/assets/button.png" alt="Status Cafe"
                             border="0" /></a>
+                            <br><br>
                 </div>
 
                 <!-- Credits Section -->
                 <div class="section">
                     <h2>Credits</h2>
                     <p>Special thanks to:</p>
+                    <img src="images/neocitieslogo.svg" alt="Neocities Logo" width="80" border="0">
                     <ul>
-                        <img src="images/neocitieslogo.svg" alt="Neocities Logo" width="100" border="0">
                         <li><a href="https://neocities.org" target="_blank">Neocities</a></li>
                         <li><a href="https://www.x.com/ansancityboy" target="_blank">@ansancityboy</a> for the Iroha animation</li>
                         <!-- Add more credits -->
                     </ul>
+                    <img src="images/top50.gif" alt="Neocities Logo" width="80" border="0">
+                    <br><br>
                 </div>
 
                 <!-- Warning Section -->
@@ -197,6 +206,8 @@
                     <!-- Include lovelyday.gif below the dev card -->
                     <br>
                     <img src="images/lovelyday.gif" alt="Lovely Day" border="0">
+                    <br>
+                    <br>
                 </div>
             </div>
 
@@ -204,10 +215,11 @@
 
         <!-- Footer -->
         <div class="footer">
+            <br>
             <!-- Grace.webp above 'All cats reserved' -->
             <img src="images/Grace.webp" width="100" alt="Grace" border="0">
             <p>All cats reserved, FOR ME!!</p>
-            <p>© 2024 Canvas-Labworks.</p>
+            <p>&#169; 2024 Canvas-Labworks.</p>
             <p>Hosted on <a href="https://neocities.org" target="_blank">Neocities</a>.</p>
             <p>GitHub and stuff are down there</p>
             <div class="social-icons">
@@ -222,6 +234,7 @@
                         target="_blank">web performance statistics</a>.
                 </small>
             </p>
+            <br><br>
         </div>
 
     </div>

@@ -58,9 +58,9 @@
 
         /* Links in Sections */
         .section a {
-            display: block;
+            display: inline-block;
             text-align: left;
-            padding-left: 10px;
+            padding-left: 0px;
             margin-bottom: 5px;
             color: #0000FF;
             text-decoration: none;
@@ -88,23 +88,6 @@
                 text-align: center;
             }
 
-        /* Buttons */
-        .button {
-            background-color: #FF4500;
-            color: #FFFFFF;
-            padding: 3px 5px;
-            text-decoration: none;
-            font-weight: bold;
-            border: 2px solid #000;
-            margin: 3px;
-            display: inline-block;
-            font-size: 12px;
-        }
-
-        .button:hover {
-            background-color: #FF6347;
-        }
-
         /* Social Icons */
         .social-icons img {
             width: 24px;
@@ -129,11 +112,18 @@
             padding-left: 20px;
         }
 
-        /* Affiliate Links Padding */
-        .affiliate-links {
-            padding-left: 5px;
-        }
+/* Affiliate Section Table Centering */
+.affiliate-links {
+    text-align: center;
+    /* Center all elements in the affiliate-links div */
+    margin: 0 auto;
+    /* Center the entire container */
+}
 
+.affiliate-links a {
+    padding-left: 0px;
+    padding-top: 10px;
+}
         /* Center Elements */
         .center {
             text-align: center;
@@ -154,3 +144,44 @@
                     text-align: center;
                 }
 
+
+#statuscafe {
+    padding: 0.5em;
+    background-color: #F7E3A3;
+    /* A warmer color to match the retro palette, kinda like parchment */
+    /* border: 2px dashed #774F38; */
+    /* Dashed border to keep with that old-school web feel */
+    color: #2D1B0F;
+    /* Darker color to make the text contrast nicely */
+    font-family: "Comic Sans MS", "Verdana", sans-serif;
+    /* Comic Sans for peak Geocities aesthetic lol */
+    box-shadow: 4px 4px 4px #D2B48C;
+    /* Shadow to give it that 'popping off the page' vibe */
+}
+
+#statuscafe-username {
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    /* Make usernames bold to add emphasis */
+    font-size: 1em;
+    /* Slightly bigger font to make the username stand out */
+    color: #774F38;
+    /* Match the border for consistency */
+}
+
+#statuscafe-content {
+    margin: 0 1em 0.5em 1em;
+    font-size: 0.9em;
+    /* Keep it a bit smaller, less dominant than the username */
+    font-style: italic;
+    /* Italic for a little extra personality */
+    line-height: 1.4;
+    /* More space for better readability */
+    background-color: #FFEFD5;
+    /* A light peachy color behind the content for visibility */
+    padding: 0.5em;
+    border-radius: 5px;
+    /* Soften those edges a bit */
+    border: 1px solid #B97A57;
+    /* Tie the colors together, keep that warm retro feel */
+}
